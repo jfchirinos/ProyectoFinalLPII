@@ -1,0 +1,60 @@
+package com.proyecto.demo.controllers;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.proyecto.demo.model.Venta;
+import com.proyecto.demo.service.VentaService;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+
+@Controller
+@RequestMapping("/report")
+public class ReporteController {
+
+    @Autowired
+    private VentaService ventaService;
+
+    @GetMapping("/ventas")
+    public void report(HttpServletResponse response) throws JRException {
+        try {
+            // 1. Acceder al reporte
+            InputStream jasperStream = this.getClass().getResourceAsStream("/reportes/Reporte_ventas_proyecto.jasper");
+
+            // 2. Preparar los datos
+            List<Venta> ventas = ventaService.getAllVentas();
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(ventas);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
+
+            // 3. Configuración
+            Map<String, Object> params = new HashMap<>();
+            // Puedes agregar parámetros adicionales si es necesario
+
+            // 4. Exportar reporte
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+            response.setContentType("application/x-pdf");
+            response.setHeader("Content-disposition", "inline; filename=reporte_ventas.pdf");
+
+            final OutputStream outStream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

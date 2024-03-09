@@ -1,0 +1,49 @@
+package com.proyecto.demo.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "roles")
+public class Rol {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idroles", nullable = false)
+    public Long idRoles;
+
+    @Column(name = "nombre", nullable = false)
+    public String nombre;
+
+    // Constructor vacío
+    public Rol() {
+    }
+
+    // Constructor con todos los campos
+    public Rol(Long idRoles, String nombre) {
+        this.idRoles = idRoles;
+        this.nombre = nombre;
+    }
+
+    // Getters y Setters
+    public Long getIdRoles() {
+        return idRoles;
+    }
+
+    public void setIdRoles(Long idRoles) {
+        this.idRoles = idRoles;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+}

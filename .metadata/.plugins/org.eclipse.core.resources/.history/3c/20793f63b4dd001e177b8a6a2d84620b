@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario</title>
+    <!-- Agregar la referencia a los archivos CSS de Bootstrap (localmente o a través de CDN) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Proyecto</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuario/usuarios">Usuarios</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-5">
+    <h1 class="mt-5">Editar Usuario</h1>
+    <form action="/usuario/edit" method="post">
+        <input type="hidden" th:value="${usuario.idusuario}" name="id" />
+        <div class="form-group">
+            <label for="nombres">Nombres</label>
+            <input type="text" class="form-control" id="nombres" name="nombres" th:value="${usuario.nombres}" placeholder="Ingrese nombres" required>
+        </div>
+        <div class="form-group">
+            <label for="primerApellido">Primer Apellido</label>
+            <input type="text" class="form-control" id="primerApellido" name="primerApellido" th:value="${usuario.primerApellido}" placeholder="Ingrese primer apellido" required>
+        </div>
+        <div class="form-group">
+            <label for="segundoApellido">Segundo Apellido</label>
+            <input type="text" class="form-control" id="segundoApellido" name="segundoApellido" th:value="${usuario.segundoApellido}" placeholder="Ingrese segundo apellido" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" th:value="${usuario.email}" placeholder="Ingrese email" required>
+        </div>
+        <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" th:value="${usuario.password}placeholder="Ingrese contraseña" required>
+            </div>
+        <div class="form-group">
+            <label for="idroles">Rol</label>
+            <select class="form-control" name="idroles" id="idroles">
+				<option th:each="rol: ${roles}" th:value="${rol.idroles}" th:text="${rol.nombre}" th:selected="${rol.idroles == usuario.rol.idroles}"></option>
+			</select>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+package com.proyecto.demo.controllers;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.proyecto.demo.model.Venta;
+import com.proyecto.demo.service.VentaService;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import net.sf.jasperreports.export.SimplePdfReportConfiguration;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+
+@Controller
+@RequestMapping("/reporte")
+public class ReporteController {
+
+    @Autowired
+    private VentaService ventaService;
+
+    @GetMapping("/ventas")
+    public void report(HttpServletResponse response) throws JRException, IOException {
+        // Acceder al reporte
+        InputStream jasperStream = this.getClass().getResourceAsStream("/reportes/Reporte_ventas_proyecto.jasper");
+
+        // Preparar los datos
+        List<Venta> ventas = ventaService.getAllVentas();
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(ventas);
+        JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
+
+        // Configuración
+        Map<String, Object> params = new HashMap<>();
+        // Puedes agregar parámetros adicionales si es necesario
+
+        // Generar JasperPrint
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+
+        // Exportar reporte a PDF
+        response.setContentType("application/pdf");
+        response.setHeader("Content-disposition", "inline; filename=reporte_ventas.pdf");
+
+     // Configuración del exportador PDF
+        SimplePdfExporterConfiguration exporterConfiguration = new SimplePdfExporterConfiguration();
+        exporterConfiguration.setMetadataAuthor("Proyecto Demo");
+
+        // Configuración del reporte PDF
+        SimplePdfReportConfiguration reportConfiguration = new SimplePdfReportConfiguration();
+        reportConfiguration.setSizePageToContent(true);
+        reportConfiguration.setForceLineBreakPolicy(false);
+
+        // Exportador PDF
+        JRPdfExporter exporter = new JRPdfExporter();
+        exporter.setConfiguration(exporterConfiguration);
+        exporter.setConfiguration(reportConfiguration);
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+        exporter.exportReport();
+
+        // Limpieza
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
+    }
+}

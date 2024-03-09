@@ -1,0 +1,121 @@
+package com.proyecto.demo.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.util.Date;
+
+@Entity
+@Table(name = "ventas")
+public class Venta {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idventas", nullable = false)
+    public Long idventas;
+
+    @Column(name = "cliente", nullable = false)
+    public String cliente;
+
+    @Column(name = "cantidad", nullable = false)
+    public int cantidad;
+
+    @Column(name = "producto", nullable = false)
+    public String producto;
+
+    @Column(name = "precio", nullable = false)
+    public double precio;
+
+    @Column(name = "total", nullable = false)
+    public double total;
+
+    @Column(name = "fechacompra", nullable = false)
+    public Date fechacompra;
+
+    @Column(name = "fechaentrega", nullable = false)
+    public Date fechaentrega;
+
+    // Constructor vacío
+    public Venta() {
+    }
+
+    // Constructor con todos los campos
+    public Venta(Long idventas, String cliente, int cantidad, String producto, double precio, double total, Date fechacompra, Date fechaentrega) {
+        this.idventas = idventas;
+        this.cliente = cliente;
+        this.cantidad = cantidad;
+        this.producto = producto;
+        this.precio = precio;
+        this.total = total;
+        this.fechacompra = fechacompra;
+        this.fechaentrega = fechaentrega;
+    }
+
+    // Getters y Setters
+    public Long getIdventas() {
+        return idventas;
+    }
+
+    public void setIdventas(Long idventas) {
+        this.idventas = idventas;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public String getProducto() {
+        return producto;
+    }
+
+    public void setProducto(String producto) {
+        this.producto = producto;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Date getFechacompra() {
+        return fechacompra;
+    }
+
+    public void setFechacompra(Date fechacompra) {
+        this.fechacompra = fechacompra;
+    }
+
+    public Date getFechaentrega() {
+        return fechaentrega;
+    }
+
+    public void setFechaentrega(Date fechaentrega) {
+        this.fechaentrega = fechaentrega;
+    }
+}

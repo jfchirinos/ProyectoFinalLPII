@@ -1,0 +1,5 @@
+package com.proyecto.demo.controllers;
+
+public class ReporteController {
+
+}

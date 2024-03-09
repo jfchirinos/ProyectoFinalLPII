@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.proyecto.demo.model.Producto"/>
+    <fullyQualifiedTypeName name="net.sf.jasperreports.engine.JasperExportManager"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="net.sf.jasperreports.engine.export.JRPdfExporter"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="com.proyecto.demo.service.VentaService"/>
+</qualifiedTypeNameHistroy>

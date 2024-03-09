@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+    <!-- Agregar la referencia a los archivos CSS de Bootstrap (localmente o a través de CDN) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 200px;
+            background-color: #343a40;
+            padding-top: 56px; /* Ajuste para compensar la altura del navbar */
+            z-index: 1;
+        }
+        .main-content {
+            margin-left: 250px; /* Ancho de la barra lateral */
+            padding: 20px;
+        }
+        .navbar-nav {
+            flex-direction: column;
+        }
+        .nav-item a {
+		    color: #ffffff;
+		    padding-left: 1rem!important;
+		    font-size: 1.2rem;
+		}
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/venta/ventas">Ventas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/producto/productos">Productos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/usuario/usuarios">Usuarios</a>
+        </li>
+    </ul>
+</div>
+  <div class="main-content">
+<div class="container mt-5">
+    <h1 class="mt-5">Usuarios</h1>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <form action="/usuario/register" method="get">
+                <button type="submit" class="btn btn-primary">Registrar Usuario</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+            <h5>Id</h5>
+        </div>
+        <div class="col-md-3">
+            <h5>Nombres</h5>
+        </div>
+        <div class="col-md-3">
+            <h5>Apellidos</h5>
+        </div>
+        <div class="col-md-3">
+            <h5>Email</h5>
+        </div>
+        <div class="col-md-2">
+            <h5>Rol</h5>
+        </div>
+    </div>
+    <div class="list-group">
+        <!-- Iterar sobre la lista de usuarios y mostrar cada uno -->
+        <div th:each="usuario : ${usuarios}" class="list-group-item">
+            <div class="row">
+                <div class="col-md-1" th:text="${usuario.idusuario}"></div>
+                <div class="col-md-3" th:text="${usuario.nombres}"></div>
+                <div class="col-md-2" th:text="${usuario.primerApellido} + ' ' + ${usuario.segundoApellido}"></div>
+                <div class="col-md-2" th:text="${usuario.email}"></div>
+                <div class="col-md-2" th:text="${usuario.rol.nombre}"></div>
+                	<div class="col-md-1">
+	                    <a th:href="@{'/usuario/edit/' + ${usuario.idusuario} }" class="btn btn-secondary">Editar</a>
+	                </div>
+	                <div class="col-md-1">
+	                    <a th:href="@{'/usuario/delete/' + ${usuario.idusuario} }" onclick="return confirm('¿Está seguro de eliminar?');" class="btn btn-danger">Eliminar</a>
+	                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
